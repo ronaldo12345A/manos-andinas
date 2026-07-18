@@ -1,8 +1,8 @@
 const products = [
-  { id: 1, name: 'Chompa de alpaca', description: 'Chompa suave hecha con lana de alpaca.', price: 220, category: 'Chompa' },
-  { id: 2, name: 'Chalina tejida', description: 'Chalina cálida y elegante para el frío.', price: 95, category: 'Chalina' },
-  { id: 3, name: 'Guantes de alpaca', description: 'Guantes abrigadores con acabado fino.', price: 60, category: 'Guantes' },
-  { id: 4, name: 'Poncho andino', description: 'Poncho tradicional hecho a mano.', price: 280, category: 'Poncho' }
+  { id: 1, name: 'Chompa de alpaca', description: 'Chompa suave hecha con lana de alpaca.', price: 220, category: 'Chompa', sizes: ['S', 'M', 'L', 'XL'] },
+  { id: 2, name: 'Chalina tejida', description: 'Chalina cálida y elegante para el frío.', price: 95, category: 'Chalina', sizes: ['Única'] },
+  { id: 3, name: 'Guantes de alpaca', description: 'Guantes abrigadores con acabado fino.', price: 60, category: 'Guantes', sizes: ['S', 'M', 'L'] },
+  { id: 4, name: 'Poncho andino', description: 'Poncho tradicional hecho a mano.', price: 280, category: 'Poncho', sizes: ['Única'] }
 ];
 const dniDatabase = {
   '12345678': 'Ana',
@@ -17,6 +17,7 @@ const dniButton = document.getElementById('dniButton');
 const dniMessage = document.getElementById('dniMessage');
 const orderForm = document.getElementById('orderForm');
 const orderMessage = document.getElementById('orderMessage');
+const orderSize = document.getElementById('orderSize');
 const adminForm = document.getElementById('adminForm');
 const adminMessage = document.getElementById('adminMessage');
 const adminProductList = document.getElementById('adminProductList');
@@ -31,6 +32,7 @@ function renderProducts(items) {
       <h3>${product.name}</h3>
       <p>${product.description}</p>
       <p class="price">S/ ${product.price}</p>
+      <p><strong>Tallas:</strong> ${product.sizes ? product.sizes.join(', ') : 'Única'}</p>
       <button class="btn btn-primary" onclick="addToOrder('${product.name}')">Reservar / Comprar</button>
     </article>
   `).join('');
@@ -51,7 +53,24 @@ function renderAdminProducts() {
 function addToOrder(name) {
   const orderProduct = document.getElementById('orderProduct');
   orderProduct.value = name;
+  updateSizeOptions(name);
   orderProduct.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function updateSizeOptions(productName) {
+  const product = products.find(item => item.name === productName);
+  orderSize.innerHTML = '<option value="">Selecciona una talla</option>';
+  if (!product || !product.sizes) {
+    orderSize.disabled = true;
+    return;
+  }
+  orderSize.disabled = false;
+  product.sizes.forEach(size => {
+    const option = document.createElement('option');
+    option.value = size;
+    option.textContent = size;
+    orderSize.appendChild(option);
+  });
 }
 
 function filterProducts() {
@@ -61,6 +80,10 @@ function filterProducts() {
 }
 
 searchInput.addEventListener('input', filterProducts);
+
+document.getElementById('orderProduct').addEventListener('change', event => {
+  updateSizeOptions(event.target.value);
+});
 
 dniButton.addEventListener('click', () => {
   const dni = dniInput.value.trim();
@@ -86,11 +109,12 @@ orderForm.addEventListener('submit', event => {
   const email = document.getElementById('orderEmail').value.trim();
   const phone = document.getElementById('orderPhone').value.trim();
   const product = document.getElementById('orderProduct').value;
+  const size = orderSize.value;
   const quantity = parseInt(document.getElementById('orderQuantity').value, 10);
   const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
 
-  if (!name || !email || !phone || !product || !quantity || quantity < 1) {
-    orderMessage.textContent = 'Por favor completa todos los campos correctamente.';
+  if (!name || !email || !phone || !product || !size || !quantity || quantity < 1) {
+    orderMessage.textContent = 'Por favor completa todos los campos correctamente, incluida la talla.';
     orderMessage.style.color = '#b33f24';
     return;
   }
@@ -101,9 +125,11 @@ orderForm.addEventListener('submit', event => {
     return;
   }
 
-  orderMessage.textContent = `Pedido recibido: ${quantity} × ${product}. Forma de pago: ${paymentMethod}. Te contactaremos pronto.`;
+  orderMessage.textContent = `Pedido recibido: ${quantity} × ${product} (Talla ${size}). Forma de pago: ${paymentMethod}. Te contactaremos pronto.`;
   orderMessage.style.color = '#3a5f35';
   orderForm.reset();
+  orderSize.innerHTML = '<option value="">Selecciona una talla</option>';
+  orderSize.disabled = true;
 });
 
 adminForm.addEventListener('submit', event => {
@@ -131,4 +157,5 @@ adminForm.addEventListener('submit', event => {
 window.addEventListener('DOMContentLoaded', () => {
   renderProducts(products);
   renderAdminProducts();
+  orderSize.disabled = true;
 });
