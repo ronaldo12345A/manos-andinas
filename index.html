@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MANOS ANDINAS</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <span class="tag">MANOS ANDINAS</span>
+      <h1>Productos de alpaca hechos a mano</h1>
+      <p>Chompas, chalinas, guantes, ponchos y más con la mejor lana de alpaca. Compra, reserva y paga con Yape o tarjeta internacional.</p>
+      <a href="#productos" class="btn btn-primary">Ver productos</a>
+    </div>
+    <div class="hero-image">
+      <img src="https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?w=600&h=400&fit=crop" alt="Cultura andina peruana" class="hero-img" />
+    </div>
+  </header>
+
+  <main>
+    <section class="intro" id="presentacion">
+      <div>
+        <h2>Bienvenido a MANOS ANDINAS</h2>
+        <p>Todo tipo de ropa hecha con lana de alpaca 100% natural. Calidad peruana, cálida y elegante para cada ocasión.</p>
+      </div>
+      <div class="tarjetas">
+        <article>
+          <h3>Chompas</h3>
+          <p>Suéteres de alpaca suaves y resistentes.</p>
+        </article>
+        <article>
+          <h3>Chalinas</h3>
+          <p>Bufandas y chalinas tejidas a mano.</p>
+        </article>
+        <article>
+          <h3>Guantes</h3>
+          <p>Guantes abrigadores y cómodos.</p>
+        </article>
+        <article>
+          <h3>Ponchos</h3>
+          <p>Ponchos estilo andino para todo clima.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="search-panel">
+      <div>
+        <h2>Busca tu producto</h2>
+        <input id="searchInput" type="search" placeholder="Buscar chompas, chalinas, guantes, ponchos..." />
+      </div>
+      <div class="dni-panel">
+        <h2>Identifícate con DNI</h2>
+        <p>Solo para clientes en Perú.</p>
+        <input id="dniInput" type="text" placeholder="Ingrese su DNI (8 dígitos)" maxlength="8" />
+        <button id="dniButton" class="btn">Enviar DNI</button>
+        <p id="dniMessage" class="message"></p>
+      </div>
+    </section>
+
+    <section class="productos" id="productos">
+      <h2>Nuestros productos</h2>
+      <div class="product-grid" id="productGrid"></div>
+    </section>
+
+    <section class="payment-section" id="yape">
+      <div class="payment-card">
+        <h2>Paga con Yape</h2>
+        <p>Escanea el QR para enviar el pago o usa tu app Yape.</p>
+        <div class="qr-card">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=Yape%20MANOS%20ANDINAS" alt="QR de Yape MANOS ANDINAS" />
+        </div>
+        <p class="small">Número de Yape: <strong>999 999 999</strong> (ejemplo, personalízalo según tu cuenta).</p>
+      </div>
+      <div class="payment-card">
+        <h2>Tarjeta internacional</h2>
+        <p>Aceptamos pago con tarjeta internacional. Completa el formulario de compra y revisa los datos antes de enviar.</p>
+      </div>
+    </section>
+
+    <section class="form-section" id="compra">
+      <div>
+        <h2>Reservar o comprar</h2>
+        <form id="orderForm">
+          <label>Nombre completo</label>
+          <input id="orderName" type="text" placeholder="Tu nombre" required />
+
+          <label>Correo electrónico</label>
+          <input id="orderEmail" type="email" placeholder="correo@ejemplo.com" required />
+
+          <label>Teléfono o WhatsApp</label>
+          <input id="orderPhone" type="tel" placeholder="999999999" pattern="[0-9]{9}" required />
+
+          <label>Producto</label>
+          <select id="orderProduct" required>
+            <option value="">Selecciona un producto</option>
+            <option value="Chompa de alpaca">Chompa de alpaca</option>
+            <option value="Chalina tejida">Chalina tejida</option>
+            <option value="Guantes de alpaca">Guantes de alpaca</option>
+            <option value="Poncho andino">Poncho andino</option>
+          </select>
+
+          <label>Cantidad</label>
+          <input id="orderQuantity" type="number" min="1" value="1" required />
+
+          <label>Forma de pago</label>
+          <div class="payment-options">
+            <label><input type="radio" name="paymentMethod" value="Yape" checked /> Yape</label>
+            <label><input type="radio" name="paymentMethod" value="Tarjeta internacional" /> Tarjeta internacional</label>
+          </div>
+
+          <label>Comentario / Dirección</label>
+          <textarea id="orderNotes" placeholder="Dirección, talla, color u observaciones"></textarea>
+
+          <button type="submit" class="btn btn-primary">Enviar reserva</button>
+          <p id="orderMessage" class="message"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="admin-section" id="admin">
+      <h2>Administrar productos</h2>
+      <p>Agrega nuevas prendas a la tienda desde aquí.</p>
+      <form id="adminForm">
+        <label>Nombre del producto</label>
+        <input id="adminName" type="text" placeholder="Ej. Chalina de alpaca" required />
+
+        <label>Descripción</label>
+        <input id="adminDescription" type="text" placeholder="Descripción breve" required />
+
+        <label>Precio (S/)</label>
+        <input id="adminPrice" type="number" min="1" placeholder="Precio" required />
+
+        <label>Tipo</label>
+        <select id="adminCategory" required>
+          <option value="Chompa">Chompa</option>
+          <option value="Chalina">Chalina</option>
+          <option value="Guantes">Guantes</option>
+          <option value="Poncho">Poncho</option>
+        </select>
+
+        <button type="submit" class="btn">Agregar producto</button>
+        <p id="adminMessage" class="message"></p>
+      </form>
+      <div class="product-list-admin" id="adminProductList"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>MANOS ANDINAS - Ropa de alpaca hecha a mano. Página funcional de catálogo, búsqueda, DNI y pago con Yape.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
